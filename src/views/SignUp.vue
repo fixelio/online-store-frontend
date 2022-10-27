@@ -104,7 +104,7 @@ export default {
 		repeatPassword: '',
 		userType: '',
 		passwordIsCorrect: true,
-		repeatPasswordIsCorrect: true,
+		repeatPasswordIsCorrect: false,
 		userTypes: [
 			'Cliente',
 			'Vendedor',
@@ -115,6 +115,10 @@ export default {
 	methods: {
 		async signUp() {
 			try {
+				if(!this.repeatPasswordIsCorrect) {
+					return;
+				}
+
 				const response = await auth.register(this.email, this.password);
 				const user = {
 					email: this.email,
@@ -125,7 +129,7 @@ export default {
 				this.$router.push('/');
 			}
 			catch(error) {
-				this.errorMessage = error.response.data.mensaje;
+				this.errorMessage = error.response.data.mensaje || error;
 				this.showAlert = true;
 				setTimeout(() => this.showAlert = false, 5000);
 			}

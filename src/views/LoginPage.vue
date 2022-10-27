@@ -23,7 +23,7 @@ export default {
 				this.$router.push('/');
 			}
 			catch(error) {
-				this.errorMessage = error.response.data.mensaje;
+				this.errorMessage = error.response.data.mensaje || error;
 				this.showAlert = true;
 				setTimeout(() => this.showAlert = false, 5000);
 			}
