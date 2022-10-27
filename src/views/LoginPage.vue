@@ -1,10 +1,32 @@
 <script>
 
+import auth from '@/logic/auth';
+
 export default {
 	name: 'LoginPage',
+	data: () => ({
+		email: '',
+		password: '',
+		showAlert: false,
+		errorMessage: '',
+	}),
 	methods: {
-		login() {
-			alert("Login");
+		async login() {
+			try {
+				const response = await auth.login(this.email, this.password);
+				const user = {
+					email: this.email,
+					token: response.data,
+				}
+
+				auth.setUserLogged(user);
+				this.$router.push('/');
+			}
+			catch(error) {
+				this.errorMessage = error.response.data.mensaje;
+				this.showAlert = true;
+				setTimeout(() => this.showAlert = false, 5000);
+			}
 		}
 	}
 }
@@ -20,12 +42,28 @@ export default {
 				<div class="loginContent m-auto position-relative">
 					<form action="#" @submit.prevent="login" class="d-block gy-5">
 						<div class="form-floating">
-							<input type="email" name="email" class="form-control" id="email" placeholder="Email" value="" required>
+							<input
+								type="email"
+								name="email"
+								class="form-control"
+								id="email"
+								placeholder="Email"
+								v-model="email"
+								required>
+
 							<label for="email"><i class="bi bi-person"></i> Correo electrónico</label>
 						</div>
 
 						<div class="form-floating">
-							<input type="password" name="password" class="form-control" id="password" placeholder="Password" aria-describedby="passwordHelp" value="" required>
+							<input
+								type="password"
+								name="password"
+								class="form-control"
+								id="password"
+								placeholder="Password"
+								v-model="password"
+								required>
+
 							<label for="password"><i class="bi bi-lock"></i> Contraseña</label>
 						</div>
 
@@ -36,7 +74,11 @@ export default {
 					<p>¿No tienes una cuenta? <router-link to="/signup" key="signup">Regístrate aquí</router-link></p>
 				</div>
 			</div>
-
+		</div>
+		<div class="fixed-top w-100 opacity-75" v-if="showAlert">
+			<div class="alert alert-danger">
+				{{ errorMessage }}
+			</div>
 		</div>
 	</div>
 </template>

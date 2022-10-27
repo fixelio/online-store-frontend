@@ -8,7 +8,15 @@
 					<form action="#" @submit.prevent="signUp" class="row gy-5">
 						<div class="col-sm-6">
 							<div class="form-floating">
-								<input type="email" name="email" class="form-control" id="email" placeholder="Email" value="" required>
+								<input
+									type="email"
+									name="email"
+									class="form-control"
+									id="email"
+									placeholder="Email"
+									v-model="email"
+									required>
+
 								<label for="email" class="form-label ml-2"><i class="bi bi-person"></i> Correo electrónico</label>
 								<div class="valid-feedback"></div>
 							</div>
@@ -76,10 +84,17 @@
 				</div>
 			</div>
 		</div>
+		<div class="fixed-top w-100 opacity-75" v-if="showAlert">
+			<div class="alert alert-danger">
+				{{ errorMessage }}
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
+
+import auth from '@/logic/auth'
 
 export default {
 	name: 'SignUp',
@@ -94,10 +109,26 @@ export default {
 			'Cliente',
 			'Vendedor',
 		],
+		showAlert: false,
+		errorMessage: '',
 	}),
 	methods: {
-		signUp() {
-			alert("Sign up");
+		async signUp() {
+			try {
+				const response = await auth.register(this.email, this.password);
+				const user = {
+					email: this.email,
+					token: response.data,
+				}
+
+				auth.setUserLogged(user);
+				this.$router.push('/');
+			}
+			catch(error) {
+				this.errorMessage = error.response.data.mensaje;
+				this.showAlert = true;
+				setTimeout(() => this.showAlert = false, 5000);
+			}
 		},
 		validate() {
 			this.repeatPasswordIsCorrect = this.password === this.repeatPassword;
