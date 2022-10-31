@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomePage.vue';
 import LoginPage from '../views/LoginPage.vue';
 import SignUp from '../views/SignUp.vue';
+import LogoutPage from '../views/LogoutPage.vue';
 
 const routes = [
 	{
@@ -29,6 +30,15 @@ const routes = [
 		meta: {
 			title: 'Online Store --- Sign up',
 			requiresAuth: false,
+		}
+	},
+	{
+		name: 'LogoutPage',
+		path: '/logout',
+		component: LogoutPage,
+		meta: {
+			title: 'Online Store --- Logout',
+			requiresAuth: true
 		}
 	}
 ];

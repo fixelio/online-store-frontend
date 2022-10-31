@@ -104,7 +104,7 @@ export default {
 		repeatPassword: '',
 		userType: '',
 		passwordIsCorrect: true,
-		repeatPasswordIsCorrect: false,
+		repeatPasswordIsCorrect: true,
 		userTypes: [
 			'Cliente',
 			'Vendedor',

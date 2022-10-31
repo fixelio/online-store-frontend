@@ -1,17 +1,23 @@
 import axios from 'axios';
-//import Cookies from 'js-cookie';
+import { useUserLogged } from '@/composables/userLogged';
 
-const ENDPOINT_PATH = "http://127.0.0.1:5001/api";
+const ENDPOINT_PATH = "http://192.168.250.4:5001/api";
 
 export default {
 	setUserLogged(user) {
 		window.localStorage.setItem('userLogged', JSON.stringify(user));
+
+		const { setUserLogged } = useUserLogged();
+		setUserLogged();
 	},
 	getUserLogged() {
 		return JSON.parse(window.localStorage.getItem('userLogged'));
 	},
 	deleteUserLogged() {
 		window.localStorage.removeItem('userLogged');
+
+		const { removeUserLogged } = useUserLogged();
+		removeUserLogged();
 	},
 	login(email, password) {
 		const user = { email, password };
