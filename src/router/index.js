@@ -1,8 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
 import HomePage from '../views/HomePage.vue';
 import LoginPage from '../views/LoginPage.vue';
 import SignUp from '../views/SignUp.vue';
 import LogoutPage from '../views/LogoutPage.vue';
+
+import RegisterProduct from '../views/RegisterProduct.vue';
 
 const routes = [
 	{
@@ -38,6 +41,15 @@ const routes = [
 		component: LogoutPage,
 		meta: {
 			title: 'Online Store --- Logout',
+			requiresAuth: true
+		}
+	},
+	{
+		name: 'RegisterProduct',
+		path: '/product/register',
+		component: RegisterProduct,
+		meta: {
+			title: 'Online Store --- Registrar Producto',
 			requiresAuth: true
 		}
 	}

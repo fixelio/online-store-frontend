@@ -1,11 +1,11 @@
 <template>
-	<div class="d-flex justify-content-center align-items-center mb-5">
+	<div class="centered">
 		<div class="card rounded shadow-lg">
 			<div class="card-body">
 				<p>Su sesión ha finalizado exitosamente.</p>
-				<p>Por favor, vuelva pronto</p>
+				<p>Por favor, vuelva pronto.</p>
 				<button class="btn btn-primary">
-					<router-link class="text-white" to="/login">Iniciar Sesión</router-link>
+					<router-link class="text-white text-decoration-none" to="/login">Iniciar Sesión</router-link>
 				</button>
 			</div>
 		</div>
@@ -25,4 +25,13 @@ export default {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.centered
+{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 240px;
+	transform: translate(-50%, -50%);
+}
+</style>

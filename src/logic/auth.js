@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useUserLogged } from '@/composables/userLogged';
 
-const ENDPOINT_PATH = "http://192.168.250.4:5001/api";
+const ENDPOINT_PATH = "http://192.168.250.6:5001/api";
 
 export default {
 	setUserLogged(user) {
@@ -19,13 +19,11 @@ export default {
 		const { removeUserLogged } = useUserLogged();
 		removeUserLogged();
 	},
-	login(email, password) {
-		const user = { email, password };
+	login(user) {
 
 		return axios.post(`${ENDPOINT_PATH}/auth/login`, user);
 	},
-	register(email, password) {
-		const user = { email, password };
+	register(user) {
 
 		return axios.post(ENDPOINT_PATH + "/auth/register", user);
 	},

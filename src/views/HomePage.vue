@@ -15,7 +15,7 @@ export default {
 		userLogged() {
 			const user = auth.getUserLogged();
 			return user;
-		}
+		},
 	},
 }
 

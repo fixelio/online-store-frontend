@@ -119,10 +119,11 @@ export default {
 					return;
 				}
 
-				const response = await auth.register(this.email, this.password);
+				const response = await auth.register({ email: this.email, password: this.password });
 				const user = {
-					email: this.email,
-					token: response.data,
+					email: response.data.email,
+					token: response.data.token,
+					userType: response.data.userType,
 				}
 
 				auth.setUserLogged(user);

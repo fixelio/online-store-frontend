@@ -13,10 +13,11 @@ export default {
 	methods: {
 		async login() {
 			try {
-				const response = await auth.login(this.email, this.password);
+				const response = await auth.login({ email: this.email, password: this.password });
 				const user = {
-					email: this.email,
-					token: response.data,
+					email: response.data.email,
+					token: response.data.token,
+					userType: response.data.userType,
 				}
 
 				auth.setUserLogged(user);
