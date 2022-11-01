@@ -17,11 +17,6 @@ export default {
 			return user;
 		}
 	},
-	beforeRouteUpdate(to, from, next) {
-		next(() => {
-			alert("Hola idiotas");
-		});
-	}
 }
 
 </script>
