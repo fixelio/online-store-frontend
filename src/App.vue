@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SidebarMenu v-model:collapsed="collapsed" :menu="menu" v-show="userLogged" />
+    <SidebarMenu v-model:collapsed="collapsed" :menu="menuType === 'vendedor' ? sellerMenu : customerMenu" v-show="userLogged" />
 
     <div v-if="isOnMobile && !collapsed" class="sidebar-overlay" @click="collapsed = true"></div>
 
@@ -21,8 +21,10 @@
 import "bootstrap-icons/font/bootstrap-icons";
 import { useUserLogged } from '@/composables/userLogged';
 import { useIsOnMobile } from '@/composables/isOnMobile';
+import { useMenu } from '@/composables/useMenu';
 
 import SidebarMenu from './components/menu/SidebarMenu.vue';
+import { sellerMenu, customerMenu } from '@/logic/menu';
 
 export default {
   name: 'App',
@@ -30,10 +32,12 @@ export default {
   setup() {
     const { userLogged } = useUserLogged();
     const { isOnMobile } = useIsOnMobile();
+    const { menuType } = useMenu();
 
     return {
       userLogged,
-      isOnMobile
+      isOnMobile,
+      menuType
     };
   },
   mounted() {
@@ -43,7 +47,6 @@ export default {
   methods: {
     onResize() {
       const { setIsOnMobile, unsetIsOnMobile } = useIsOnMobile();
-
 
       if(window.innerWidth <= 767) {
         setIsOnMobile();
@@ -57,33 +60,8 @@ export default {
   },
   data() {
     return {
-      menu:
-      [
-        {
-          header: 'Menú',
-          hiddenOnCollapse: true
-        },
-        {
-          href: '/',
-          title: 'Dashboard',
-          icon: 'bi bi-house'
-        },
-        {
-          title: 'Productos',
-          icon: 'bi bi-bag',
-          child: [
-            {
-              href: '/product/register',
-              title: 'Registrar'
-            }
-          ]
-        },
-        {
-          href: '/logout',
-          title: 'Cerrar Sesión',
-          icon: 'bi bi-box-arrow-left',
-        }
-      ],
+      sellerMenu,
+      customerMenu,
       collapsed: false,
     }
   },

@@ -1,6 +1,7 @@
 <script>
 
 import auth from '@/logic/auth';
+import { useMenu } from '@/composables/useMenu';
 
 export default {
 	name: 'LoginPage',
@@ -13,18 +14,22 @@ export default {
 	methods: {
 		async login() {
 			try {
-				const response = await auth.login({ email: this.email, password: this.password });
-				const user = {
-					email: response.data.email,
-					token: response.data.token,
-					userType: response.data.userType,
+				const user = await auth.login({ email: this.email, password: this.password });
+				const { setSellerMenu, setCustomerMenu } = useMenu();
+				const userTypeHandler = {
+					'customer': setCustomerMenu,
+					'seller': setSellerMenu
 				}
+
+				const handler = userTypeHandler[user.role];
+				handler();
 
 				auth.setUserLogged(user);
 				this.$router.push('/');
 			}
 			catch(error) {
-				this.errorMessage = error.response.data.mensaje || error;
+				console.log(error);
+				this.errorMessage = error.message || error;
 				this.showAlert = true;
 				setTimeout(() => this.showAlert = false, 5000);
 			}

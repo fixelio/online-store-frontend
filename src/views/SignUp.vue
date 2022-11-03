@@ -25,15 +25,15 @@
 						<div class="col-sm-6">
 							<div class="form-floating">
 								<select
-									name="userType"
-									id="userType"
+									name="role"
+									id="role"
 									class="form-select"
-									v-model="userType"
+									v-model="role"
 									required>
 
-									<option v-for="type in userTypes" :key="type" :value="type">{{ type }}</option>
+									<option v-for="role in userRoles" :key="role" :value="role">{{ role }}</option>
 								</select>
-								<label for="userType" class="form-label">Tipo de usuario</label>
+								<label for="role" class="form-label">Tipo de usuario</label>
 							</div>
 						</div>
 
@@ -94,7 +94,8 @@
 
 <script>
 
-import auth from '@/logic/auth'
+import auth from '@/logic/auth';
+import { useMenu } from '@/composables/useMenu';
 
 export default {
 	name: 'SignUp',
@@ -102,10 +103,10 @@ export default {
 		email: '',
 		password: '',
 		repeatPassword: '',
-		userType: '',
+		role: '',
 		passwordIsCorrect: true,
 		repeatPasswordIsCorrect: true,
-		userTypes: [
+		userRoles: [
 			'Cliente',
 			'Vendedor',
 		],
@@ -119,18 +120,33 @@ export default {
 					return;
 				}
 
-				const response = await auth.register({ email: this.email, password: this.password });
-				const user = {
-					email: response.data.email,
-					token: response.data.token,
-					userType: response.data.userType,
+				const { setSellerMenu, setCustomerMenu } = useMenu();
+
+				const roles = {
+					'cliente': 'customer',
+					'vendedor': 'seller',
+				};
+
+				const userTypeHandler = {
+					'customer': setCustomerMenu,
+					'seller': setSellerMenu
 				}
+
+				const user = await auth.register({
+					email: this.email,
+					password: this.password,
+					role: roles[this.role.toLowerCase()],
+				});
+
+				const handler = userTypeHandler[user.role.toLowerCase()];
+				handler();
 
 				auth.setUserLogged(user);
 				this.$router.push('/');
 			}
 			catch(error) {
-				this.errorMessage = error.response.data.mensaje || error;
+				console.log(error);
+				this.errorMessage = error.message || error;
 				this.showAlert = true;
 				setTimeout(() => this.showAlert = false, 5000);
 			}

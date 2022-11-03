@@ -1,7 +1,6 @@
-import axios from 'axios';
 import { useUserLogged } from '@/composables/userLogged';
 
-const ENDPOINT_PATH = "http://192.168.250.6:5001/api";
+const ENDPOINT_PATH = "http://localhost:5001/api/v1/auth";
 
 export default {
 	setUserLogged(user) {
@@ -19,12 +18,36 @@ export default {
 		const { removeUserLogged } = useUserLogged();
 		removeUserLogged();
 	},
-	login(user) {
+	async login(user) {
+		const url = `${ENDPOINT_PATH}/login`;
+		const params = new URLSearchParams(user);
+		const options = {
+			method: 'POST',
+			body: params,
+		};
 
-		return axios.post(`${ENDPOINT_PATH}/auth/login`, user);
+		const response = await fetch(url, options);
+		if(!response.ok) {
+			throw (await response.json());
+		}
+
+		const data = await response.json();
+		return data;
 	},
-	register(user) {
+	async register(user) {
+		const url = `${ENDPOINT_PATH}/signup`;
+		const params = new URLSearchParams(user);
+		const options = {
+			method: 'POST',
+			body: params,
+		}
 
-		return axios.post(ENDPOINT_PATH + "/auth/register", user);
+		const response = await fetch(url, options);
+		if(!response.ok) {
+			throw (await response.json());
+		}
+
+		const data = await response.json();
+		return data;
 	},
 }

@@ -6,6 +6,9 @@ import SignUp from '../views/SignUp.vue';
 import LogoutPage from '../views/LogoutPage.vue';
 
 import RegisterProduct from '../views/RegisterProduct.vue';
+import ProductGrid from '../views/ProductGrid.vue';
+
+import auth from '@/logic/auth';
 
 const routes = [
 	{
@@ -15,6 +18,7 @@ const routes = [
 		meta: {
 			title: 'Online Store --- Home',
 			requiresAuth: true,
+			userTypes: []
 		}
 	},
 	{
@@ -24,6 +28,7 @@ const routes = [
 		meta: {
 			title: 'Online Store --- Login',
 			requiresAuth: false,
+			userTypes: []
 		}
 	},
 	{
@@ -33,6 +38,7 @@ const routes = [
 		meta: {
 			title: 'Online Store --- Sign up',
 			requiresAuth: false,
+			userTypes: []
 		}
 	},
 	{
@@ -41,7 +47,8 @@ const routes = [
 		component: LogoutPage,
 		meta: {
 			title: 'Online Store --- Logout',
-			requiresAuth: true
+			requiresAuth: true,
+			userTypes: []
 		}
 	},
 	{
@@ -50,7 +57,18 @@ const routes = [
 		component: RegisterProduct,
 		meta: {
 			title: 'Online Store --- Registrar Producto',
-			requiresAuth: true
+			requiresAuth: true,
+			userTypes: ['seller']
+		}
+	},
+	{
+		name: 'ProductGrid',
+		path: '/product/list',
+		component: ProductGrid,
+		meta: {
+			title: 'Online Store --- Lista de Productos',
+			requiresAuth: true,
+			userTypes: ['seller', 'customer']
 		}
 	}
 ];
@@ -67,6 +85,8 @@ router.beforeEach((to, from, next) => {
 	if(to.meta && to.meta.title) {
 		document.title = to.meta.title;
 	}
+
+	const userLogged = auth.getUserLogged();
 	
 	if(to.name === 'Login') {
 		next();
@@ -74,8 +94,14 @@ router.beforeEach((to, from, next) => {
 	else if(to.meta && to.meta.requiresAuth === false) {
 		next();
 	}
-	else if(window.localStorage.getItem('userLogged')) {
+	else if(userLogged && to.meta.userTypes.length === 0) {
 		next();
+	}
+	else if(userLogged && to.meta.userTypes.includes(userLogged.role.toLowerCase()) === true) {
+		next();
+	}
+	else if(userLogged && to.meta.userTypes.includes(userLogged.role.toLowerCase()) === false) {
+		next({ name: 'Home' });
 	}
 	else {
 		next({ name: 'Login' });
