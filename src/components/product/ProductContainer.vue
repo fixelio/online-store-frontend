@@ -1,9 +1,11 @@
 <template>
 	<div class="container">
 		<div class="row">
-			<div class="col">
-				<p v-for="product in products" :key="product.code">{{ product.name }}</p>
-			</div>
+			<ProductItem
+				v-for="product in products"
+				:key="product.code"
+				:product="product"
+			/>
 		</div>
 	</div>
 </template>
@@ -11,9 +13,11 @@
 <script>
 
 import product from '@/logic/product';
+import ProductItem from './ProductItem.vue';
 
 export default {
 	name: 'ProductContainer',
+	components: { ProductItem },
 	async setup() {
 		let products = [];
 		try {
@@ -23,8 +27,6 @@ export default {
 			console.error(error);
 			products = [];
 		}
-
-		console.log('Products:', products);
 
 		return {
 			products

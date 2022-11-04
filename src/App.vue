@@ -1,16 +1,29 @@
 <template>
   <div>
-    <SidebarMenu v-model:collapsed="collapsed" :menu="menuType === 'vendedor' ? sellerMenu : customerMenu" v-show="userLogged" />
+    <SidebarMenu
+      v-model:collapsed="collapsed"
+      :menu="menuType === 'vendedor' ? sellerMenu : customerMenu"
+      v-show="userLogged" />
 
-    <div v-if="isOnMobile && !collapsed" class="sidebar-overlay" @click="collapsed = true"></div>
+    <div
+      v-if="isOnMobile && !collapsed"
+      class="sidebar-overlay"
+      @click="collapsed = true"></div>
 
-    <div id="view" :class="[{'collapsed': collapsed}, {'onmobile': isOnMobile}, {'hide-padding': !userLogged}]">
+    <div
+      id="view"
+      :class="[{'collapsed': collapsed}, {'onmobile': isOnMobile}, {'hide-padding': !userLogged}]">
       <div class="container">
         <router-view></router-view>
       </div>
     </div>
 
-    <back-to-top visibleoffset="500" right="30px" bottom="20px" class="shadow-lg">
+    <back-to-top
+      visibleoffset="500"
+      right="30px"
+      bottom="20px"
+      class="shadow-lg"
+    >
       <i class="chevron-up"></i>
     </back-to-top>
   </div>

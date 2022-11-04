@@ -5,7 +5,11 @@
 				<p>Su sesión ha finalizado exitosamente.</p>
 				<p>Por favor, vuelva pronto.</p>
 				<button class="btn btn-primary">
-					<router-link class="text-white text-decoration-none" to="/login">Iniciar Sesión</router-link>
+					<router-link
+						class="text-white text-decoration-none"
+						to="/login">
+						Iniciar Sesión
+					</router-link>
 				</button>
 			</div>
 		</div>

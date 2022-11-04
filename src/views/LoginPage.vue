@@ -57,7 +57,10 @@ export default {
 								v-model="email"
 								required>
 
-							<label for="email"><i class="bi bi-person"></i> Correo electrónico</label>
+							<label for="email">
+								<i class="bi bi-person"></i>
+								Correo electrónico
+							</label>
 						</div>
 
 						<div class="form-floating">
@@ -70,10 +73,15 @@ export default {
 								v-model="password"
 								required>
 
-							<label for="password"><i class="bi bi-lock"></i> Contraseña</label>
+							<label for="password">
+								<i class="bi bi-lock"></i>
+								Contraseña
+							</label>
 						</div>
 
-						<button type="submit" class="btn btn-primary d-block w-100">Iniciar sesión</button>
+						<button type="submit" class="btn btn-primary d-block w-100">
+							Iniciar sesión
+						</button>
 					</form>
 				</div>
 				<div class="d-block mt-4">

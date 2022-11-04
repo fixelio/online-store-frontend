@@ -17,7 +17,10 @@
 									v-model="email"
 									required>
 
-								<label for="email" class="form-label ml-2"><i class="bi bi-person"></i> Correo electrónico</label>
+								<label for="email" class="form-label ml-2">
+									<i class="bi bi-person"></i>
+									Correo electrónico
+								</label>
 								<div class="valid-feedback"></div>
 							</div>
 						</div>
@@ -31,7 +34,13 @@
 									v-model="role"
 									required>
 
-									<option v-for="role in userRoles" :key="role" :value="role">{{ role }}</option>
+									<option
+										v-for="role in userRoles"
+										:key="role"
+										:value="role"
+									>
+										{{ role }}
+									</option>
 								</select>
 								<label for="role" class="form-label">Tipo de usuario</label>
 							</div>
@@ -50,7 +59,10 @@
 									@change="validate"
 									required>
 
-								<label for="password" class="form-label ml-2"><i class="bi bi-lock"></i> Contraseña</label>
+								<label for="password" class="form-label ml-2">
+									<i class="bi bi-lock"></i>
+									Contraseña
+								</label>
 								<div class="invalid-feedback">
 									La contraseña debe tener al menos 6 caracteres
 								</div>
@@ -71,12 +83,22 @@
 									@change="validate"
 									required>
 
-								<label for="repeat" class="form-label ml-2"><i class="bi bi-repeat"></i> Repite la contraseña</label>
-								<div class="invalid-feedback">Las contraseñas no coinciden</div>
+								<label for="repeat" class="form-label ml-2">
+									<i class="bi bi-repeat"></i>
+									Repite la contraseña
+								</label>
+								<div class="invalid-feedback">
+									Las contraseñas no coinciden
+								</div>
 							</div>
 						</div>
 
-						<button type="submit" class="btn btn-primary d-block w-100">Registrarse</button>
+						<button
+							type="submit"
+							class="btn btn-primary d-block w-100"
+						>
+							Registrarse
+						</button>
 					</form>
 				</div>
 				<div class="d-block mt-4">
